@@ -1,10 +1,13 @@
 name: commandy
-description: My new Flutter package
+description: A modern Flutter package for managing asynchronous commands and state effectively.
 version: 0.1.0
+repository: https://github.com/Hapkiduki/commandy
+issue_tracker: https://github.com/Hapkiduki/commandy/issues
+topics: [commandy, state-management, command-pattern]
 
 environment:
-  sdk: ^3.5.0
-  flutter: ^3.24.0
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
 
 dependencies:
   equatable: ^2.0.7
