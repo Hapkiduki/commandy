@@ -2,7 +2,8 @@
 # Commandy
 
 <p align="center">
-<img src="commandy.svg" alt="Commandy Logo" width="150"/>
+<img src="https://raw.githubusercontent.com/hapkiduki/commandy/master/commandy.svg" alt="Commandy Logo" width="150"/>
+
 </p>
 
 <div align="center">
@@ -18,10 +19,10 @@
     <img src="https://img.shields.io/badge/Example-Included-009688" alt="Example Included"/>
   </a>
    <a href="https://github.com/hapkiduki/commandy">
-    <img src="./coverage_badge.svg" alt="Coverage Badge"/>
+    <img src="https://raw.githubusercontent.com/hapkiduki/commandy/master/coverage_badge.svg" alt="Coverage Badge"/>
   </a>
   <a href="https://github.com/hapkiduki/commandy">
-    <img src="./commandy_logo.svg" alt="Commandy Library" width="100"/>
+    <img src="https://raw.githubusercontent.com/hapkiduki/commandy/master/commandy_logo.svg" alt="Commandy Library" width="100"/>
   </a>
 </div>
 
