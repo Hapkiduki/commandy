@@ -12,3 +12,7 @@
   - Listens for changes in multiple commands and triggers custom callbacks.
 - Comprehensive documentation for all public classes.
 - Compatibility with Dart 3 and Flutter.
+  
+## [0.1.0+1] - 2024-12-06
+### updated
+- readme logos updated
