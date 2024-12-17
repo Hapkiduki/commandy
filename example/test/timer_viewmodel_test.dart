@@ -1,3 +1,4 @@
+import 'package:commandy/commandy.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:example/timer_viewmodel.dart';
 import 'package:example/ticker.dart';
@@ -15,14 +16,14 @@ void main() {
     });
 
     test('start timer and wait a few seconds', () async {
-      viewModel.start();
+      viewModel.startCommand.execute(const NoParams());
       expect(viewModel.timerCommand.isListening.value, true);
 
       await Future.delayed(const Duration(seconds: 3));
 
       expect(viewModel.timeLeft, inInclusiveRange(27, 27));
 
-      viewModel.stop();
+      viewModel.stopCommand.execute(const NoParams());
       expect(viewModel.timerCommand.isListening.value, false);
 
       expect(viewModel.timeLeft, 30);

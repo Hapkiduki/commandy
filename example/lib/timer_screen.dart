@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:commandy/commandy.dart';
 import 'package:example/timer_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -33,59 +35,60 @@ class TimerScreen extends StatelessWidget {
   }
 }
 
-class TimerView extends StatefulWidget {
+class TimerView extends StatelessWidget {
   const TimerView({super.key, required this.viewModel});
 
   final TimerViewModel viewModel;
 
   @override
-  State<TimerView> createState() => _TimerViewState();
-}
-
-class _TimerViewState extends State<TimerView> {
-  @override
   Widget build(BuildContext context) {
     return Center(
-      child: AnimatedBuilder(
-        animation: widget.viewModel,
-        builder: (context, _) {
-          final timeLeft = widget.viewModel.timeLeft;
-          final isRunning = widget.viewModel.timerCommand.isListening.value;
-
-          String displayText;
-          if (!isRunning) {
-            displayText = 'Press start to begin!';
-          } else if (timeLeft > 0) {
-            displayText = 'Remaining: $timeLeft s';
-          } else {
-            displayText = 'Time\'s up!';
-          }
-
-          return Column(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ViewModelSelector<TimerViewModel, int>(
+            viewModel: viewModel,
+            selector: (viewModel) => viewModel.timeLeft,
+            builder: (context, timeLeft) {
+              log('escuchando', name: 'timeleft');
+              return Text(
+                timeLeft > 0 ? 'Remaining: $timeLeft s' : 'Time\'s up!',
+                style: Theme.of(context).textTheme.headlineMedium,
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+          ViewModelSelector<TimerViewModel, bool>(
+            viewModel: viewModel,
+            selector: (viewModel) => viewModel.timerCommand.isListening.value,
+            builder: (context, isRunning) {
+              log('escuchando', name: 'timer');
+              return Text(
+                isRunning ? 'Timer is running...' : 'Press start to begin!',
+                style: Theme.of(context).textTheme.bodyLarge,
+              );
+            },
+          ),
+          const SizedBox(height: 20),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                displayText,
-                style: Theme.of(context).textTheme.headlineMedium,
+              ElevatedButton(
+                onPressed: () {
+                  viewModel.startCommand.execute(const NoParams());
+                },
+                child: const Text('Start'),
               ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: widget.viewModel.start,
-                    child: const Text('Start'),
-                  ),
-                  const SizedBox(width: 20),
-                  ElevatedButton(
-                    onPressed: widget.viewModel.stop,
-                    child: const Text('Stop'),
-                  ),
-                ],
+              const SizedBox(width: 20),
+              ElevatedButton(
+                onPressed: () {
+                  viewModel.stopCommand.execute(const NoParams());
+                },
+                child: const Text('Stop'),
               ),
             ],
-          );
-        },
+          ),
+        ],
       ),
     );
   }

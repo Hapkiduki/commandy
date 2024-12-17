@@ -13,3 +13,4 @@ export 'src/base/result.dart';
 export 'src/commands/command.dart';
 export 'src/commands/stream_command.dart';
 export 'src/widgets/command_listener.dart';
+export 'src/widgets/view_model_selector.dart';

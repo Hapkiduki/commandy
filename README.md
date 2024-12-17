@@ -142,6 +142,87 @@ Simplifies UI integration by reacting to command result changes. Instead of manu
 
 ---
 
+Puedes agregar la documentación de la nueva clase **`ViewModelSelector`** en una nueva sección dedicada a "Advanced Features" o "UI Optimization". Esta clase encaja perfectamente en la idea de optimizar el comportamiento de widgets y el estado de la UI, así que deberíamos destacarla como una **herramienta avanzada**.
+
+---
+
+#### **Advanced Features ⚡**
+
+### ViewModelSelector 🧩
+
+The **`ViewModelSelector`** is a powerful utility for selectively rebuilding Flutter widgets based on specific properties of a `ChangeNotifier`-based ViewModel. It optimizes UI updates by ensuring that only the widgets depending on the selected value are rebuilt, avoiding unnecessary widget rebuilds when other properties in the ViewModel change.
+
+---
+
+#### Key Features:
+- **Selective Rebuilding**:  
+  Extracts a specific property from the ViewModel using a `selector` function and only triggers a rebuild when that property changes.
+
+- **Integration with ChangeNotifier**:  
+  Works seamlessly with your existing ViewModels, which extend `ChangeNotifier`.
+
+- **Efficient and Modular**:  
+  Allows finer control of UI updates without requiring external libraries or tools.
+
+---
+
+#### Example Usage:
+
+Here’s how you can integrate the `ViewModelSelector` into your code:
+
+**1. Create a ViewModel:**
+
+```dart
+class MyViewModel extends ChangeNotifier {
+  String _name = 'John Doe';
+  int _counter = 0;
+
+  String get name => _name;
+  int get counter => _counter;
+
+  void updateName(String newName) {
+    _name = newName;
+    notifyListeners();
+  }
+
+  void incrementCounter() {
+    _counter++;
+    notifyListeners();
+  }
+}
+```
+
+**2. Use ViewModelSelector in Your Widget:**
+
+```dart
+final myViewModel = MyViewModel();
+
+ViewModelSelector<MyViewModel, String>(
+  viewModel: myViewModel,
+  selector: (vm) => vm.name, // Watch only the `name` property
+  builder: (context, name) {
+    return Text('Name: $name');
+  },
+);
+
+ViewModelSelector<MyViewModel, int>(
+  viewModel: myViewModel,
+  selector: (vm) => vm.counter, // Watch only the `counter` property
+  builder: (context, counter) {
+    return Text('Counter: $counter');
+  },
+);
+```
+
+
+---
+
+#### Benefits:
+- Ensures UI efficiency by rebuilding only the widgets affected by state changes.
+- Simple and clean integration into existing `ChangeNotifier` architectures.
+- Great for modularizing UI updates when working with complex ViewModels.
+
+---
 ## Examples 🎯
 
 ### Counter Example

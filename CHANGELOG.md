@@ -16,3 +16,11 @@
 ## [0.1.0+1] - 2024-12-06
 ### updated
 - readme logos updated
+
+## [0.1.1] - 2024-12-17
+### Added
+- Introduced `ViewModelSelector`, a new widget that listens to a specific property of a `ChangeNotifier`-based ViewModel and rebuilds only when the selected value changes.
+- Optimized UI updates by avoiding unnecessary rebuilds.
+
+### Changed
+- Updated the Timer example to use the new `ViewModelSelector` for improved efficiency and cleaner code.
