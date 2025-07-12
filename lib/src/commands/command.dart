@@ -10,10 +10,13 @@ import 'package:flutter/foundation.dart';
 /// {@endtemplate}
 class Command<T, Params> implements BaseCommand<T> {
   /// {@macro command}
-  Command(this._action);
+  Command(this._action, {this.maxRetries = 0});
 
   /// The asynchronous action to be executed.
   final Future<Result<T>> Function(Params) _action;
+
+  /// When an error occurs allow to retry
+  final int maxRetries;
 
   /// Indicates whether the action is currently executing.
   final ValueNotifier<bool> isExecuting = ValueNotifier<bool>(false);
@@ -29,12 +32,19 @@ class Command<T, Params> implements BaseCommand<T> {
 
     isExecuting.value = true;
     result.value = null;
+    var attempts = 0;
 
-    try {
-      final res = await _action(params);
-      result.value = res;
-    } finally {
-      isExecuting.value = false;
+    while (attempts <= maxRetries) {
+      try {
+        final res = await _action(params);
+        result.value = res;
+      } catch (e) {
+        attempts++;
+        if (attempts > maxRetries) rethrow;
+        await Future<void>.delayed(Duration(milliseconds: 500 * attempts));
+      } finally {
+        isExecuting.value = false;
+      }
     }
   }
 
@@ -45,6 +55,7 @@ class Command<T, Params> implements BaseCommand<T> {
   }
 
   /// Disposes resources.
+  @override
   void dispose() {
     isExecuting.dispose();
     result.dispose();

@@ -1,6 +1,6 @@
 name: commandy
 description: A modern Flutter package for managing asynchronous commands and state effectively.
-version: 0.1.1
+version: 0.1.2
 repository: https://github.com/Hapkiduki/commandy
 issue_tracker: https://github.com/Hapkiduki/commandy/issues
 topics: [commandy, state-management, command-pattern, viewmodel]

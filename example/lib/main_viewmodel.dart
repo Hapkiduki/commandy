@@ -21,4 +21,8 @@ class MainViewModel {
     }
     return Success(_counter);
   }
+
+  void dispose() {
+    incrementCommand.dispose();
+  }
 }

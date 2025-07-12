@@ -63,6 +63,7 @@ class StreamCommand<T, Params> implements BaseCommand<T> {
   }
 
   /// Disposes resources.
+  @override
   void dispose() {
     stop();
     isListening.dispose();

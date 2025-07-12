@@ -14,4 +14,7 @@ abstract interface class BaseCommand<T> {
   /// The value will be `null` if no action has been executed yet.
   /// {@endtemplate}
   ValueListenable<Result<T>?> get resultNotifier;
+
+  /// release the memory to avoid memory leaks
+  void dispose();
 }

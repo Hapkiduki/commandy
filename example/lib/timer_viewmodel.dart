@@ -54,6 +54,9 @@ class TimerViewModel extends ChangeNotifier {
   @override
   void dispose() {
     timerCommand.latestResult.removeListener(_onResultChanged);
+    timerCommand.dispose();
+    startCommand.dispose();
+    stopCommand.dispose();
     super.dispose();
   }
 }
