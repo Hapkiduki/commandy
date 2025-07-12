@@ -1,5 +1,4 @@
-import 'package:commandy/src/base/base_command.dart';
-import 'package:commandy/src/base/result.dart';
+import 'package:commandy/commandy.dart';
 import 'package:flutter/foundation.dart';
 
 /// {@template command}
@@ -32,19 +31,38 @@ class Command<T, Params> implements BaseCommand<T> {
 
     isExecuting.value = true;
     result.value = null;
-    var attempts = 0;
 
-    while (attempts <= maxRetries) {
-      try {
-        final res = await _action(params);
-        result.value = res;
-      } catch (e) {
+    try {
+      var attempts = 0;
+      Result<T>? lastResult;
+
+      while (attempts <= maxRetries) {
+        try {
+          final res = await _action(params);
+          if (res is Success<T>) {
+            result.value = res;
+            return; // Or break; if you want to continue for some reason
+          } else {
+            // Treat FailureResult as retryable
+            lastResult = res;
+          }
+        } catch (e, s) {
+          // Convert unhandled exceptions to FailureResult
+          lastResult = FailureResult<T>(
+            Failure(message: 'Execution failed', exception: e, stackTrace: s),
+          );
+        }
+
         attempts++;
-        if (attempts > maxRetries) rethrow;
+        if (attempts > maxRetries) {
+          result.value = lastResult; // Set the last failure
+          return;
+        }
+
         await Future<void>.delayed(Duration(milliseconds: 500 * attempts));
-      } finally {
-        isExecuting.value = false;
       }
+    } finally {
+      isExecuting.value = false;
     }
   }
 
