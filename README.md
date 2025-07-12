@@ -48,7 +48,7 @@ Add Commandy to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  commandy: ^0.1.2
+  commandy: ^0.1.21
 ```
 
 Then, fetch packages:
